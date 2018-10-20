@@ -1,0 +1,3 @@
+#!/bin/bash
+
+g++ $1 -o a.out -lGL -lGLU -lglut -O3 -std=c++14
