@@ -6,20 +6,18 @@ using namespace std;
 
 bool update(int n, vector<Point> &points) {
 	bool ret = false;
-	Line L1 = {points[1], points[3] - points[1]};
-	Line L2 = {points[0], points[2] - points[0]};
-	if (intersection(L1, L2)) {
-		ret = true;
-		Point tmp;
-		tmp = points[0]; points[0] = points[1]; points[1] = tmp;
+	for (int i = 0; i < n; i ++) {
+		for (int j = i + 1; j < n; j ++) {
+			Line L1 = {points[i], points[n+i] - points[i]};
+			Line L2 = {points[j], points[n+j] - points[j]};
+			if (intersection(L1, L2)) {
+				ret = true;
+				Point tmp;
+				tmp = points[i]; points[i] = points[j]; points[j] = tmp;
+			}
+		}
 	}
 	return ret;
-}
-
-void partition(vector<Point> &points, vector<Point> &sub1, vector<Point> &sub2) {
-	int n = points.size() / 2;
-
-		
 }
 
 void naive(vector<Point> &points){
@@ -32,12 +30,14 @@ void naive(vector<Point> &points){
 
 void DC(vector<Point> &points){
     // boundary case (naive) ...
-	if (points.size() == 4)
+	if (points.size() <= 3000) {
 		naive(points);
+		return;
+	}
 
     vector<Point> sub1, sub2;
     partition(points,sub1,sub2);
-    //oj.set_match(points);
+    oj.set_match(points);
 	oj.set_match(sub1);
     oj.set_match(sub2);
     display();
