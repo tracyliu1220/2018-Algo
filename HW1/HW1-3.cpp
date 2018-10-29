@@ -6,7 +6,7 @@ using namespace std;
 
 bool update(int n, vector<Point> &points) {
 	bool ret = false;
-	if (n == 1) return ret;
+	if (n <= 1) return ret;
 	Line L1 = {points[0], points[2] - points[0]};
 	Line L2 = {points[1], points[3] - points[1]};
 	if (intersection(L1, L2)) {
@@ -56,7 +56,7 @@ void partition(vector<Point> &points, vector<Point> &sub1, vector<Point> &sub2) 
 				if (p != i && (points[p] - points[i]) % base < 0) rats_cnt ++;
 			    if (p != j && (points[n+p] - points[i]) % base < 0) holes_cnt ++;	
 			}
-			if (rats_cnt == holes_cnt && rats_cnt == n / 2) {
+			if (rats_cnt == holes_cnt) {
 				base1 = points[i]; base2 = points[n+j];
 				founded = 1;
 				break;
