@@ -28,7 +28,7 @@ int main() {
 		for (int j = 0; j < n; j ++)
 			cin >> G[i][j];
 
-	int L = 0, R = MAX, M;
+	int L = -1, R = MAX, M;
 	while (R - L > 1) {
 		M = (L + R) / 2;
 		if (solve(M)) R = M;
