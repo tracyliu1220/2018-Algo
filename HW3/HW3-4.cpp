@@ -3,8 +3,6 @@ using namespace std;
 #define MAX 100005
 typedef long long LL;
 
-int n, m, K;
-
 struct Edge {
     int u, v;
     LL w;
@@ -17,7 +15,8 @@ struct Edge {
 vector<Edge> e;
 int p[MAX];
 
-void init() {
+void init(int n, int m) {
+    e.resize(m);
     for (int i = 0; i < n; i ++)
         p[i] = i;
 }
@@ -33,42 +32,15 @@ void _union(int a, int b) {
     p[_b] = _a;
 }
 
-bool MST(int k) {
-    if (k < K) return false;
-
-    init();
-    _union(e[k].u, e[k].v);
-    
-    int cnt = 0;
-    for (int i = 0; i < k; i ++) {
-        if (find(e[i].u) == find(e[i].v)) continue;
-        _union(e[i].u, e[i].v);
-        cnt ++;
-    }
-
-    if (cnt >= K - 1) return true;
-    else return false;
-}
-
-int BS() {
-    int L = -1, R = n - 1, M;
-    for (int i = 0; i < 20; i ++) {
-        M = (L + R) / 2;
-        cout << "L= " << L << " M= " << M << " R= " << R << '\n';
-        if (MST(M)) R = M;
-        else L = M;
-    }
-
-    return e[R].w;
-}
 
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
+    int n, m, K;
     cin >> n >> m >> K;
 
-    e.resize(m);
+    init(n, m);
 
     for (int i = 0; i < m; i ++) {
         cin >> e[i].u >> e[i].v >> e[i].w; 
@@ -77,5 +49,18 @@ int main() {
 
     sort(e.begin(), e.end());
 
-    cout << BS() << '\n';
+    int cnt = 0;
+	LL ans;
+    for (int i = 0; i < m; i ++) {
+        if (find(e[i].u) == find(e[i].v)) continue;
+        _union(e[i].u, e[i].v);
+        cnt ++;
+        if (cnt == K) {
+            ans = e[i].w;
+            break;
+        }
+    }
+
+    cout << ans << '\n';
+    
 }
