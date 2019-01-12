@@ -23,9 +23,9 @@ void readB(){
     }
 }
 
-bool HamC(const vector< pair<int,int> > &edges){
+bool TST(const vector< pair<int,int> > &edges){
     // input: edge set of an 8 vertex simple graph G
-    // output: return true if G contain a hammington path, otherwise false
+    // output: return true if G contain a binary spanning tree, otherwise false
     // time complexity: O(m) where m = number of edge
 
     int G = 0;
@@ -43,24 +43,18 @@ bool HamC(const vector< pair<int,int> > &edges){
 // Complete the solve function below.
 void solve(){
     int n, m; cin >> n >> m;
-    vector< pair<int,int> > edges;
-	for (int i=0; i<m; i++){
+	vector< pair<int,int> > edges;
+    for (int i=0; i<m; i++){
         int u, v; cin >> u >> v; // edge (u,v)
 		edges.push_back( {u, v} );
     }
-	int legal = 0;
-	edges.push_back( {7, 0} );
-	edges.push_back( {7, 1} );
-	for (int i = 0; i < n; i ++) {
-		for (int j = i + 1; j < n; j ++) {
-			edges[m + 1].second = i;
-			edges[m].second = j;
-			if (HamC(edges)) {
-				legal = 1;
-				break;
-			}
-		}
-		if (legal) break;
+	edges.push_back( {0, 5} );
+	edges.push_back( {5, 6} );
+	edges.push_back( {6, 7} );
+	bool legal = true;
+	for (int i = 0; i < 5; i ++) {
+		edges[m].first = i;
+		legal &= TST(edges);
 	}
 	if (legal) cout << "Yes\n";
 	else cout << "No\n";
@@ -69,8 +63,9 @@ void solve(){
 int main(){
     cin.tie(0); cin.sync_with_stdio(0);
 
-	readB();
+    readB();
 
     int T; cin >> T;
     while (T--) solve();
 }
+
