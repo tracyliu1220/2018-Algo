@@ -1,0 +1,24 @@
+#!/bin/bash
+options="-lm -O3 -Wuninitialized -Wunused -Wshadow -Wall -Wextra -pedantic -pipe"
+
+if [ $(uname) == "Linux" ] ; then
+	options+=" -static"
+fi
+
+if [ $# -lt 1 ] ; then
+	echo "Usage: ./compile source [output]" 1>&2
+	exit 1
+elif [ ! -r $1 ] ; then
+	echo "File not found: $1" 1>&2
+	exit 1
+elif [[ $1 =~ .*\.c$ ]] ; then
+	gcc $1 glpk/*.o $options -o ${2:-submission.out} -std=c11
+	exit $?
+elif [[ $1 =~ .*\.cpp$ ]] ; then
+	g++ $1 glpk/*.o $options -o ${2:-submission.out} -std=c++14
+	exit $?
+else
+	echo "Unsupported file type" 1>&2
+	exit 1
+fi
+
